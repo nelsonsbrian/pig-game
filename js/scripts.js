@@ -11,7 +11,13 @@ var evalDice = function(input) {
   return output;
 }
 
-
+var isFinished = function(score) {
+  var output;
+  if (score >= 15) {
+    output = 'You have won';
+    return output;
+  }
+}
 
 
 
@@ -34,8 +40,12 @@ $(document).ready(function() {
   $('#holdGame').click(function(){
     score += runningTally;
     $('.output').append("Your turn is on hold. Your tally is " + runningTally + " Total Score: " + score + "<br>");
-
     runningTally = 0;
+    var ending = isFinished(score);
+
+    if (ending !== undefined) {
+      $('.output').append(ending);
+    }
   });
 
 
