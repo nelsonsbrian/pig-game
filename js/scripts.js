@@ -13,6 +13,7 @@ var evalDice = function(input) {
   var runningTally;
   if (input === 1) {
     output = 0;
+    $('.output').append(players[playerTurnIndex].name + " rolled a '1'." + players[playerTurnIndex].name + "\'s turn is over.<br>");
   } else {
     output = input;
   }
@@ -21,8 +22,8 @@ var evalDice = function(input) {
 
 var isFinished = function(score) {
   var output;
-  if (score >= 15) {
-    output = 'You have won';
+  if (score >= 5) {
+    output = players[playerTurnIndex].name;
     return output;
   }
 }
@@ -43,6 +44,7 @@ var switchTurn = function() {
     playerTurnIndex += 1;
   }
   players[playerTurnIndex].turn = true;
+  $('.output').append(players[playerTurnIndex].name + "\s turn.<br>");
 }
 
 var currentScore = function() {
@@ -61,52 +63,83 @@ var evalScore = function() {
   $('#scoreP2').text(players[1].score);
 }
 
-$(document).ready(function() {
+var playAgain = function() {
+  $('.output').text('');
+  players = [];
   var newPlayer = new Player("Brian", 0);
   players.push(newPlayer);
   var newPlayer = new Player("Vera", 0);
   players.push(newPlayer);
   evalScore();
-  var score = 0;
+  runningTally = 0;
+  $('.tally').text('');
+  output = 0;
+  gameOver = 0;
+}
+
+
+
+$(document).ready(function() {
+  var gameOver = 0;
+  playAgain();
   var runningTally = 0;
-  var output;
-  $('#rollDice').click(function() {
-    var roll = Math.ceil(Math.random()*6);
-    output = evalDice(roll);
-    if (output === 0){
-      runningTally = 0;
-      $('.output').append("You Rolled a '1'. Your tally is reset.<br>");
-      switchTurn();
-      isTurn();
-    } else {
-      var tempScore = runningTally + output + currentScore();
-      var ending = isFinished(tempScore);
-      if (ending !== undefined) {
-        $('.output').append(ending + " with a score of " + tempScore);
-      } else {
-        runningTally += output;
-        $('.output').append("Roll: " + output + " This is your tally: " + runningTally + '<br>');
-      }
-    }
-  });
-
-  $('#holdGame').click(function(){
-    addScore(runningTally);
-    $('.output').append("Your turn is on hold. Your tally is " + runningTally + " Total Score: " + currentScore() + "<br>");
-    runningTally = 0;
-    switchTurn();
-    isTurn();
-    evalScore();
-
-  });
-
+  var output = 0;
+  //Begin Game Setup
   $('#begin').click(function() {
     $('.game').show();
     $('#begin').hide();
-    playerTurnIndex = Math.ceil(Math.random()*2)-1;
+    playerTurnIndex = Math.ceil(Math.random()*players.length)-1;
     players[playerTurnIndex].turn = true;
+    $('.output').append(players[playerTurnIndex].name + "\'s turn.<br>");
     isTurn();
+  });
 
+  //Roll Dice Button
+  $('#rollDice').click(function() {
+    // if (gameOver === 0) {
+      var roll = Math.ceil(Math.random()*6);
+      output = evalDice(roll);
+      if (output === 0){
+        runningTally = 0;
+        $('.tally').text('');
+        switchTurn();
+        isTurn();
+
+      } else {
+        var tempScore = runningTally + output + currentScore();
+        var ending = isFinished(tempScore);
+        if (ending !== undefined) {
+          $('.output').append(ending + " has won with a score of " + tempScore + "<br>");
+          addScore(runningTally+output);
+          evalScore();
+          runningTally = 0;
+          gameOver = 1;
+
+        } else {
+          runningTally += output;
+          $('.output').append(players[playerTurnIndex].name + " rolled a " + output + '<br>');
+          $('.tally').text(runningTally);
+        }
+      }
+    // } else {
+      // alert("nothign");
+    // }
+  });
+  //Hold Dice Button - Keep Current Tally and Switch turns
+  $('#holdGame').click(function(){
+    // if (gameOver === 0) {
+      addScore(runningTally);
+      runningTally = 0;
+      $('.tally').text(runningTally);
+      $('.output').text('');
+      switchTurn();
+      isTurn();
+      evalScore();
+    // }
+  });
+
+  $('#playAgain').click(function(){
+    playAgain();
   });
 
 });

@@ -12,24 +12,39 @@
     <h1>Pig Game</h1>
     <button type="button" class="btn-success" id='begin' name="button">Start Game</button>
     <div class="game">
-      <div class="whoTurn">
-
-      </div>
       <div class="row">
         <div class="col-md-6">
-          <h2 id='nameP1'></h2>
-          <h3>Score:</h3>
-          <p id="scoreP1"></p>
+          <div class="player player1">
+            <h2 id='nameP1'></h2>
+            <h3>Score:</h3>
+            <p class="score" id="scoreP1"></p>
+          </div>
         </div>
         <div class="col-md-6">
-          <h2 id='nameP2'></h2>
-          <h3>Score:</h3>
-          <p id="scoreP2"></p>
+          <div class="player player2">
+            <h2 id='nameP2'></h2>
+            <h3>Score:</h3>
+            <p class="score" id="scoreP2"></p>
+          </div>
         </div>
       </div>
-      <button type="button" id='rollDice' name="button">Roll Dice</button>
-      <button type="button" id='holdGame'name="button">Hold Game</button>
+      <div class="turnDiv">
+        <p>Turn:</p>
+        <div class="whoTurn">
+
+        </div>
+      </div>
+      <div class="gameplay">
+
+        <button type="button" id='rollDice' name="button">Roll Dice</button>
+        <button type="button" id='holdGame'name="button">Hold Game</button>
+        <button type="button" id='playAgain' class="btn btn-danger" name="button">Reset</button>
+      </div>
       <div class="output">
+        <h2>Roll History:</h2>
+      </div>
+      <div class="tally">
+
       </div>
     </div>
   </div>
