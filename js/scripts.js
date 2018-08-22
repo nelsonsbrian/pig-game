@@ -16,24 +16,27 @@ var evalDice = function(input) {
 
 
 $(document).ready(function() {
-
+  var score = 0;
   var runningTally = 0;
-
+  var output;
   $('#rollDice').click(function() {
     var roll = Math.ceil(Math.random()*6);
-    var output = evalDice(roll);
+    output = evalDice(roll);
     if (output === 0){
       runningTally = 0;
-      alert("Your turn is over; tally reset to 0.");
+      $('.output').append("You Rolled a '1'. Your tally is reset.<br>");
+    } else {
+      runningTally += output;
+      $('.output').append("Roll: " + output + " This is your tally: " + runningTally + '<br>');
     }
-    runningTally += output;
-
-
-
-    $('.output').append(output + "This is your tally: " + runningTally + '<br>');
   });
 
+  $('#holdGame').click(function(){
+    score += runningTally;
+    $('.output').append("Your turn is on hold. Your tally is " + runningTally + " Total Score: " + score + "<br>");
 
+    runningTally = 0;
+  });
 
 
 });
