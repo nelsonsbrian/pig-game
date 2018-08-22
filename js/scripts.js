@@ -45,17 +45,28 @@ var switchTurn = function() {
   players[playerTurnIndex].turn = true;
 }
 
+var currentScore = function() {
+  var currentScore = players[playerTurnIndex].score;
+  return currentScore;
+}
+
+var addScore = function(inputScore) {
+  players[playerTurnIndex].score += inputScore;
+}
+
+var evalScore = function() {
+  $('#nameP1').text(players[0].name);
+  $('#nameP2').text(players[1].name);
+  $('#scoreP1').text(players[0].score);
+  $('#scoreP2').text(players[1].score);
+}
 
 $(document).ready(function() {
   var newPlayer = new Player("Brian", 0);
   players.push(newPlayer);
   var newPlayer = new Player("Vera", 0);
   players.push(newPlayer);
-  $('#nameP1').text(players[0].name);
-  $('#nameP2').text(players[1].name);
-  $('#scoreP1').text(players[0].score);
-  $('#scoreP2').text(players[1].score);
-
+  evalScore();
   var score = 0;
   var runningTally = 0;
   var output;
@@ -68,7 +79,7 @@ $(document).ready(function() {
       switchTurn();
       isTurn();
     } else {
-      var tempScore = runningTally + output + score;
+      var tempScore = runningTally + output + currentScore();
       var ending = isFinished(tempScore);
       if (ending !== undefined) {
         $('.output').append(ending + " with a score of " + tempScore);
@@ -80,11 +91,12 @@ $(document).ready(function() {
   });
 
   $('#holdGame').click(function(){
-    score += runningTally;
-    $('.output').append("Your turn is on hold. Your tally is " + runningTally + " Total Score: " + score + "<br>");
+    addScore(runningTally);
+    $('.output').append("Your turn is on hold. Your tally is " + runningTally + " Total Score: " + currentScore() + "<br>");
     runningTally = 0;
     switchTurn();
     isTurn();
+    evalScore();
 
   });
 
