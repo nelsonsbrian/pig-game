@@ -17,6 +17,7 @@ Write a program where two users can play Pig dice against each other.
 | **If the program generates a 1 on a die roll, user total points tallier are reset to '0'** | User input: "die lands on '1'" | Output: "Total points: 0" |
 | **Player can choose to "Hold" on their turn and not roll again until player is ready, adds tally to total player score*** | User input: "presses 'Hold' button" | Output: "Player on hold" |
 | **When total points reach 100, the game has been won by player*** | User input: "Total points: 100" | Output: "You have won the game!" |
+| **Add functionality for 2 players. Program returns scores for each player*** | User input: "button -hold-" | Output: "Player 1 score - 10 & Player 2 score - 15." |
 
 
 ## Setup/Installation Requirements
